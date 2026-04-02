@@ -1,0 +1,51 @@
+# Laravel core
+/vendor
+/node_modules
+/public/storage
+/storage/*.key
+/storage/app/*
+/storage/framework/*
+/storage/logs/*
+/bootstrap/cache/*
+
+# Environment files
+.env
+.env.backup
+.env.production
+.env.testing
+
+# Logs
+*.log
+npm-debug.log
+yarn-error.log
+
+# Cache
+.phpunit.result.cache
+/.phpunit.cache
+
+# IDE / Editors
+.vscode/
+.idea/
+.fleet/
+.zed/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build files
+/public/build
+/public/hot
+
+# Composer
+auth.json
+
+# Laravel Sail / Homestead
+Homestead.json
+Homestead.yaml
+
+# PHP tools
+.phpactor.json
+
+# Misc
+*.sqlite

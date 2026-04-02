@@ -1,0 +1,79 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\EducationController;
+use App\Http\Controllers\ExperienceController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SettingController;
+
+/*
+|--------------------------------------------------------------------------
+| Public Routes (No Authentication)
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/', function () {
+    return view('frontend.home');
+});
+
+Route::view('/about', 'frontend.about');
+Route::get('/education', [EducationController::class, 'publicIndex']);
+Route::view('/experience', 'frontend.experience');
+Route::view('/contact', 'frontend.contact');
+
+// Projects (Public)
+Route::get('/projects', [ProjectController::class, 'index']);
+Route::get('/projects/{slug}', [ProjectController::class, 'show']);
+
+// Contact Form
+Route::post('/contact', [App\Http\Controllers\ContactController::class, 'send']);
+
+
+/*
+|--------------------------------------------------------------------------
+| Admin Routes (Protected)
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['auth'])->prefix('admin')->group(function () {
+
+    // Dashboard (optional)
+    Route::get('/', function () {
+        return redirect('/admin/projects');
+    });
+
+    // Projects
+    Route::get('/projects', [ProjectController::class, 'adminIndex']);
+    Route::resource('/projects', ProjectController::class)->except(['index', 'show']);
+
+    // Education
+    Route::resource('/education', EducationController::class);
+
+    // Experience
+    Route::resource('/experience', ExperienceController::class);
+
+    // Resume Settings
+    Route::get('/settings', [SettingController::class, 'index']);
+    Route::post('/settings', [SettingController::class, 'store']);
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| Auth Routes (Laravel Breeze)
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';
+
+
+Route::get('/dashboard', function () {
+    return view('admin.dashboard');
+});
