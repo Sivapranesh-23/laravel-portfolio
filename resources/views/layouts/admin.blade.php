@@ -9,7 +9,7 @@
     <style>
         body {
             background: #0f172a;
-            color: white;
+            color: #e2e8f0;
         }
 
         .sidebar {
@@ -22,19 +22,33 @@
             display: block;
             color: #94a3b8;
             padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 6px;
             text-decoration: none;
         }
 
-        .sidebar a:hover {
+        .sidebar a:hover,
+        .sidebar a.active {
             background: #1e293b;
             color: white;
-            border-radius: 5px;
+        }
+
+        .topbar {
+            background: rgba(255,255,255,0.05);
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
         }
 
         .card-custom {
             background: rgba(255,255,255,0.05);
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 20px;
+            transition: 0.3s;
+        }
+
+        .card-custom:hover {
+            transform: translateY(-5px);
         }
     </style>
 </head>
@@ -46,13 +60,14 @@
 
         <!-- Sidebar -->
         <div class="col-md-2 sidebar">
-            <h4 class="mb-4">Admin</h4>
 
-            <a href="/admin/dashboard">Dashboard</a>
-            <a href="/admin/projects">Projects</a>
-            <a href="/admin/education">Education</a>
-            <a href="/admin/experience">Experience</a>
-            <a href="/admin/settings">Resume</a>
+            <h4 class="mb-4">⚡ Admin</h4>
+
+            <a href="/admin/dashboard" class="active">🏠 Dashboard</a>
+            <a href="/admin/projects">📁 Projects</a>
+            <a href="/admin/education">🎓 Education</a>
+            <a href="/admin/experience">💼 Experience</a>
+            <a href="/admin/settings">📄 Resume</a>
 
             <hr>
 
@@ -60,11 +75,20 @@
                 @csrf
                 <button class="btn btn-danger w-100 mt-2">Logout</button>
             </form>
+
         </div>
 
         <!-- Content -->
         <div class="col-md-10 p-4">
+
+            <!-- Topbar -->
+            <div class="topbar d-flex justify-content-between align-items-center">
+                <h5 class="m-0">Dashboard</h5>
+                <span>{{ Auth::user()->name ?? 'Admin' }}</span>
+            </div>
+
             @yield('content')
+
         </div>
 
     </div>

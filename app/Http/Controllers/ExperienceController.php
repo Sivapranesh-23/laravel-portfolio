@@ -62,4 +62,11 @@ class ExperienceController extends Controller
     {
         //
     }
+
+    public function publicIndex()
+{
+    $experiences = \App\Models\Experience::latest()->get();
+
+    return view('frontend.experience', compact('experiences'));
+}
 }

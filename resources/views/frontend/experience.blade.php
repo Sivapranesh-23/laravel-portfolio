@@ -2,25 +2,40 @@
 
 @section('content')
 
-<div class="max-w-5xl mx-auto p-6">
+<div class="section">
+    <div class="container">
 
-    <h1 class="text-3xl font-bold mb-6">Experience</h1>
+        <h2 class="mb-4">Experience</h2>
 
-    <div class="bg-white shadow-lg rounded-xl p-5">
+        @forelse($experiences as $exp)
 
-        <h2 class="text-xl font-bold">Laravel Developer Intern</h2>
-        <p class="text-gray-600">Company Name</p>
-        <p class="text-gray-500">Duration: 3 Months</p>
+            <div class="card-custom mb-3">
 
-        <ul class="mt-4 list-disc ml-6 text-gray-700">
-            <li>Developed CRUD-based web applications using Laravel</li>
-            <li>Worked with MySQL database integration</li>
-            <li>Implemented authentication and authorization</li>
-            <li>Improved UI using Blade and Tailwind CSS</li>
-        </ul>
+                <h5>
+                    {{ $exp->role }}
+
+                    @if($exp->type == 'internship')
+                        <span class="badge bg-success">Internship</span>
+                    @endif
+                </h5>
+
+                <p class="text-muted">
+                    {{ $exp->company }} • {{ $exp->duration }}
+                </p>
+
+                <p>
+                    {{ $exp->description }}
+                </p>
+
+            </div>
+
+        @empty
+
+            <p class="text-muted">No experience added yet.</p>
+
+        @endforelse
 
     </div>
-
 </div>
 
 @endsection

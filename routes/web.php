@@ -1,25 +1,27 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\EducationController;
 use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
-
+use App\Http\Controllers\ContactController;
 /*
 |--------------------------------------------------------------------------
 | Public Routes (No Authentication)
 |--------------------------------------------------------------------------
 */
 
-Route::get('/', function () {
-    return view('frontend.home');
-});
+Route::get('/', [HomeController::class, 'index']);
 
 Route::view('/about', 'frontend.about');
+
+// Dynamic pages
 Route::get('/education', [EducationController::class, 'publicIndex']);
-Route::view('/experience', 'frontend.experience');
+Route::get('/experience', [ExperienceController::class, 'publicIndex']);
+
 Route::view('/contact', 'frontend.contact');
 
 // Projects (Public)
@@ -27,7 +29,7 @@ Route::get('/projects', [ProjectController::class, 'index']);
 Route::get('/projects/{slug}', [ProjectController::class, 'show']);
 
 // Contact Form
-Route::post('/contact', [App\Http\Controllers\ContactController::class, 'send']);
+Route::post('/contact', [ContactController::class, 'send']);
 
 
 /*
@@ -38,9 +40,14 @@ Route::post('/contact', [App\Http\Controllers\ContactController::class, 'send'])
 
 Route::middleware(['auth'])->prefix('admin')->group(function () {
 
-    // Dashboard (optional)
+    // ✅ Dashboard route (FIXED)
+    Route::get('/dashboard', function () {
+        return view('admin.dashboard');
+    });
+
+    // Redirect /admin → dashboard
     Route::get('/', function () {
-        return redirect('/admin/projects');
+        return redirect('/admin/dashboard');
     });
 
     // Projects
@@ -72,8 +79,3 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
-
-
-Route::get('/dashboard', function () {
-    return view('admin.dashboard');
-});
